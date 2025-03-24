@@ -1,4 +1,5 @@
-import { prisma } from '@/lib/prisma'
+import { PrismaPedidoRepository } from '@/repositories/prisma/prisma-pedido-repository'
+import { RegisterUseCase } from '@/use-cases/register'
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
@@ -13,14 +14,20 @@ export async function register(request: FastifyRequest, reply: FastifyReply) {
   const { situacaoPagamento, descricaoPedido, nomeCliente, valor } =
     registerBodySchema.parse(request.body)
 
-  await prisma.pedidos.create({
-    data: {
-      situacao_pagamento: situacaoPagamento,
-      descricao_pedido: descricaoPedido,
-      nome_cliente: nomeCliente,
-      valor,
-    },
-  })
+  const prismaPedidoRepository = new PrismaPedidoRepository()
 
-  reply.status(201).send()
+  const registerUseCase = new RegisterUseCase(prismaPedidoRepository)
+
+  try {
+    await registerUseCase.execute({
+      situacaoPagamento,
+      descricaoPedido,
+      nomeCliente,
+      valor,
+    })
+
+    return reply.status(201).send()
+  } catch (err) {
+    return reply.status(500).send()
+  }
 }
