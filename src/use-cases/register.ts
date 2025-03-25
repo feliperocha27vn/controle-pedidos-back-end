@@ -1,14 +1,21 @@
+import type { PedidosRepository } from '@/repositories/pedido-repository'
+
+interface RegisterUseCaseRequest {
+  nomeCliente: string
+  situacaoPagamento: string
+  descricaoPedido: string
+  valor: number
+}
+
 export class RegisterUseCase {
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  constructor(private pedidoRepository: any) {}
+  constructor(private pedidoRepository: PedidosRepository) {}
 
   async execute({
     nomeCliente,
     situacaoPagamento,
     descricaoPedido,
     valor,
-    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  }: any) {
+  }: RegisterUseCaseRequest) {
     await this.pedidoRepository.create({
       situacao_pagamento: situacaoPagamento,
       descricao_pedido: descricaoPedido,
