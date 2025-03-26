@@ -2,7 +2,7 @@ import { prisma } from '@/lib/prisma'
 import type { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
-export async function mudaSituacao(
+export async function changeSitutation(
   request: FastifyRequest,
   reply: FastifyReply
 ) {

@@ -4,10 +4,17 @@ import type { PedidosRepository } from '../pedido-repository'
 
 export class PrismaPedidoRepository implements PedidosRepository {
   async create(data: Prisma.PedidosCreateInput) {
-    const user = await prisma.pedidos.create({
+    const order = await prisma.pedidos.create({
       data,
     })
 
-    return user
+    return order
+  }
+
+  async update(data: Prisma.PedidosUpdateInput) {
+    const orderUpdated = await prisma.pedidos.update({
+      where,
+      data,
+    })
   }
 }
