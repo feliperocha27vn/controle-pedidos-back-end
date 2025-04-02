@@ -11,10 +11,12 @@ export class PrismaPedidoRepository implements PedidosRepository {
     return order
   }
 
-  async update(data: Prisma.PedidosUpdateInput) {
+  async update(id: string, data: Prisma.PedidosUpdateInput) {
     const orderUpdated = await prisma.pedidos.update({
-      where,
+      where: { id: id },
       data,
     })
+
+    return orderUpdated
   }
 }
